@@ -27,35 +27,10 @@ def detect(image):
 
 # Here is the function for UI
 def main():
-    st.title("Face Detection App")
-    st.write("**Using the Haar cascade Classifiers**")
-    st.write("--Use operations in the side bar")
+    st.title("Face Detection")
 
-    st.sidebar.write("")
-    st.sidebar.write("")
-    st.sidebar.write("")
-    st.sidebar.write("**These are the functions by the our application : ** ")
-    st.sidebar.write("")
-
-    activities = ["Home", "Upload and display pic",
-                  "Face detection in pic", "Face detection cam"]
+    activities = ["Face detection in pic"]
     choice = st.sidebar.selectbox("select an option", activities)
-
-    if choice == "Home":
-        image = Image.open('DP.png')
-        image = image.resize((400, 400))
-        st.image(image, caption='an application by Gunashekar.CH')
-
-    if choice == "Upload and display pic":
-        image_file = st.file_uploader(
-            "Upload image", type=['jpeg', 'png', 'jpg', 'webp'])
-
-        if image_file is not None:
-
-            image = Image.open(image_file)
-            if st.button("Process"):
-               # image = image.resize((500,500))
-                st.image(image, use_column_width="auto")
 
     if choice == "Face detection in pic":
         image_file = st.file_uploader(
@@ -73,24 +48,6 @@ def main():
                 result_img, result_faces = detect(image=image)
                 st.image(result_img, use_column_width=True)
                 st.success("Found {} faces\n".format(len(result_faces)))
-
-    if choice == "Face detection cam":
-
-        st.header("Webcam Live Feed")
-        run = st.checkbox('Run')
-        FRAME_WINDOW = st.image([])
-        camera = cv2.VideoCapture(0)
-        while run:
-            # Reading image from video stream
-            _, img = camera.read()
-            # Call method we defined above
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            img, a = detect(img)
-           # st.image(img, use_column_width=True)
-            FRAME_WINDOW.image(img)
-        else:
-            st.write('Stopped')
-
 
 if __name__ == "__main__":
     main()
